@@ -1,0 +1,19 @@
+services:
+  ytschool.api.cms:
+    image: ${DOCKER_REGISTRY-}ytschoolapicms
+    build:
+      context: .
+      dockerfile: YTSchool.Api.Cms/Dockerfile
+    ports:
+      - 7000:8080
+      - 7001:8081
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://ytschool.cms.aspire-dashboard:18889
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+
+  ytschool.cms.aspire-dashboard:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
+    environment:
+      DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: true
+    ports:
+      - 18888:18888
